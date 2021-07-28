@@ -1,0 +1,18 @@
+<object class="radio" data="https://static.bycast.com.br/player/EY4DjnwwGldGPBiX/topbar" width="100%" height="72"></object>
+<header class="header {{ if $.Site.Params.languageSwitcher.show }} has-LangNav{{ end }}">
+    <div class="header__title">
+        <a href="{{ "/" | relLangURL }}" class="header__title__link" alt="Home">
+            {{ if $.Site.Params.logo }}
+            <img src="{{ $.Site.BaseURL }}{{ $.Site.Params.logo }}" height = "150px" class="header__title__logo" alt="{{ $.Site.Title }}">
+            {{ else }}
+            {{ $.Site.Title }}
+            {{ end }}
+        </a>
+    </div>
+
+    {{ partial "menu.html" . }}
+    {{ partial "hamburger-menu.html" . }}
+    {{ if $.Site.Params.languageSwitcher.show }}
+    {{ partial "language-switcher.html" . }}
+    {{ end }}
+</header>

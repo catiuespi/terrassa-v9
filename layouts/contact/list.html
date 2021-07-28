@@ -1,0 +1,112 @@
+{{ define "main" }}
+<main class="contact" style="margin-top: 70px;">
+    <h1 class="contact__title" style="font-weight: bold;">{{ .Title }}</h1>
+    <p class="contact__content">{{ .Description }}</p>
+
+    {{ if $.Site.Params.form.netlify }}
+    <form name="contact" method="POST" data-netlify="true" class="contact__form" id="contactForm">
+        {{ else }}
+        <form action="{{ $.Site.Params.form.action }}" method="{{ lower $.Site.Params.form.method }}" class="contact__form"
+            id="contactForm">
+            {{ end }}
+
+            <!-- Name -->
+            <div class="contact__field contact__field--name">
+                <label for="{{ $.Site.Params.form.inputNameName }}" style="font-weight: 700;">{{ $.Site.Params.form.inputNameLabel }}</label>
+                <input type="text" name="{{ $.Site.Params.form.inputNameName }}" placeholder="{{ $.Site.Params.form.inputNamePlaceholder }}"
+                    class="contact__form__input contact__form__name" id="{{ $.Site.Params.form.inputNameName }}"
+                    aria-labelledby="{{ $.Site.Params.form.inputNameName }}" required>
+            </div>
+
+            <!-- Email -->
+            <div class="contact__field contact__field--email">
+                <label for="{{ $.Site.Params.form.inputEmailName }}" style="font-weight: 700;">{{ $.Site.Params.form.inputEmailLabel }}</label>
+                <input type="email" name="{{ $.Site.Params.form.inputEmailName }}" placeholder="{{ $.Site.Params.form.inputEmailPlaceholder }}"
+                    class="contact__form__input contact__form__email" id="{{ $.Site.Params.form.inputEmailName }}"
+                    aria-labelledby="{{ $.Site.Params.form.InputEmailName }}" required>
+            </div>
+
+            <!-- Message -->
+            <div class="contact__field contact__field--msg">
+                <label for="{{ $.Site.Params.form.inputMsgName }}" style="font-weight: 700;">{{ $.Site.Params.form.inputMsgLabel }}</label>
+                <textarea name="{{ $.Site.Params.form.inputMsgName }}" id="{{ $.Site.Params.form.inputMsgName }}" form="contactForm"
+                    maxlength="{{ $.Site.Params.form.inputMsgLength }}" id="{{ $.Site.Params.form.inputMsgName }}"
+                    arial-labelledby="{{ $.Site.Params.form.InputMsgName }}" required></textarea>
+            </div>
+
+            <!-- Submit -->
+            <div class="contact__field contact__field--submit">
+                <button type="submit" class="ripple-btn submit" onclick="cleanForm" aria-label="{{ $.Site.Params.form.inputSubmitValue }}">
+                    {{ $.Site.Params.form.inputSubmitValue }}
+                </button>
+            </div>
+
+        </form>
+</main>
+<footer class="footer">
+    {{ if $.Site.Params.social }}
+    {{ $items := $.Site.Params.social }}
+    {{ $len := (len $items) }}
+
+    {{ if gt $len 0 }}
+    <div class="footer__social">
+        {{ range $k, $v := $items }}
+        {{ if $v}}
+        <a href="{{ $v }}" class="footer__social__link" alt="{{ $k }}" target="_blank" aria-label="{{ $v }}" rel="noopener">
+            <span>
+                <i class="fab fa-{{ $k }}"></i>
+            </span>
+        </a>
+        {{ end }}
+        {{ end }}
+    </div>
+    {{ end }}
+    {{ end }}
+
+    <address class="footer__contact">
+        {{ if $.Site.Params.contact.email }}
+        <p class="footer__contact__item">
+            <span><i class="far fa-envelope"></i></span>
+            <a href="mailto:{{ $.Site.Params.contact.email}}" class="footer__contact__link" alt="Email">
+                {{ $.Site.Params.contact.email }}
+            </a>
+        </p>
+        {{ end }}
+
+        {{ if $.Site.Params.contact.phone }}
+        <p class="footer__contact__item">
+            <span><i class="fas fa-phone"></i></span>
+            <a href="tel:{{ $.Site.Params.contact.phone }}" class="footer__contact__link" alt="Phone">
+                {{ $.Site.Params.contact.phone }}
+            </a>
+        </p>
+        {{ end }}
+
+        {{ if $.Site.Params.contact.skype }}
+        <p class="footer__contact__item">
+            <span><i class="fab fa-skype"></i></span>
+            <a href="skype:{{ $.Site.Params.contact.skype }}" class="footer__contact__link" alt="Skype">
+                {{ $.Site.Params.contact.skype }}
+            </a>
+        </p>
+        {{ end }}
+
+        {{ if $.Site.Params.contact.address }}
+        <p class="footer__contact__item">
+            <span><i class="fas fa-map-marker-alt"></i></span>
+            {{ $.Site.Params.contact.address }}
+        </p>
+        {{ end }}
+    </address>
+
+    <div class="copy">
+        {{ if $.Site.Params.copy.copy }}
+        <p>{{ $.Site.Params.copy.copy }}</p>
+        {{ else }}
+        <p>© {{ now.Format "2006" }} - {{ $.Site.Title }}</p>
+        {{ end }}
+    </div>
+
+    {{ partial "scripts.html" . }}
+</footer>
+{{ end }}
